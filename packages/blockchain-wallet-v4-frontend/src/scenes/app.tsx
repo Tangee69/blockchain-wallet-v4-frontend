@@ -111,6 +111,7 @@ const useFullPathForRedirect = [
   '/wallet-options-v4.json',
   '/#/prove',
   '/#/reset-two-factor',
+  '/reset-two-factor',
   '/#/open',
   '/forgot-password',
   '/import-wallet',
@@ -305,11 +306,17 @@ const App = ({
 
     if (availableUI) {
       // eslint-disable-next-line
-      console.log('Redirecting to v5', fullPathCaseSensitive)
+      console.log('xx', 'Redirecting to v5', fullPathCaseSensitive)
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
       if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
+        console.log(
+          'xx',
+          `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`,
+          'using full path for redirect'
+        )
         window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`
       } else {
+        console.log('xx', window?.WALLET_V5_LINK, 'not using full path for redirect')
         window.location.href = window?.WALLET_V5_LINK
       }
 
