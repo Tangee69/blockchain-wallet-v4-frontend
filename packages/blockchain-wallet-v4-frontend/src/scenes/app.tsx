@@ -153,7 +153,6 @@ const excludedStaging = [
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
-  '/#/prove',
   // '/#/reset-two-factor'
   // '/#/open',
   '/login?product=wallet&platform=ios',
@@ -256,11 +255,8 @@ const App = ({
     }
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
-    if (
-      (useStaging ? excludedStaging : excludedProduction).some((prefix) => {
-        return fullPath.startsWith(prefix)
-      })
-    ) {
+    const exclusionPaths = useStaging ? excludedStaging : excludedProduction
+    if (exclusionPaths.some((prefix) => fullPath.startsWith(prefix))) {
       setDynamicRoutingState(false)
       return
     }
