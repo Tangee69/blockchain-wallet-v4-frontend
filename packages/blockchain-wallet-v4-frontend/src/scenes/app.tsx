@@ -127,13 +127,13 @@ const excludedProduction = [
   '/exchange',
   '/prove/instant-link/callback',
   '/refer',
-  '/sofi',
+  // '/sofi',
   '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
   '/#/prove',
-  '/#/reset-two-factor',
-  '/#/open',
+  // '/#/reset-two-factor',
+  // '/#/open',
   '/login?product=wallet&platform=ios',
   '/login?product=wallet&platform=android',
   '/signup/product=exchange&platform=ios',
@@ -141,9 +141,10 @@ const excludedProduction = [
   '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
+  '/#/login/',
   '/#/signup/product=exchange&platform=android',
-  '/#/sofi',
-  '/#/login/'
+  // '/#/sofi'
+
 ]
 
 const excludedStaging = [
@@ -155,7 +156,6 @@ const excludedStaging = [
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
-  '/#/prove',
   // '/#/reset-two-factor'
   // '/#/open',
   '/login?product=wallet&platform=ios',
@@ -258,11 +258,8 @@ const App = ({
     }
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
-    if (
-      (useStaging ? excludedStaging : excludedProduction).some((prefix) => {
-        return fullPath.startsWith(prefix)
-      })
-    ) {
+    const exclusionPaths = useStaging ? excludedStaging : excludedProduction
+    if (exclusionPaths.some((prefix) => fullPath.startsWith(prefix))) {
       setDynamicRoutingState(false)
       return
     }
@@ -311,6 +308,7 @@ const App = ({
       console.log('xx', 'Redirecting to v5', fullPathCaseSensitive)
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
       if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
+        // eslint-disable-next-line
         console.log(
           'xx',
           `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`,
@@ -318,6 +316,7 @@ const App = ({
         )
         window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`
       } else {
+        // eslint-disable-next-line
         console.log('xx', window?.WALLET_V5_LINK, 'not using full path for redirect')
         window.location.href = window?.WALLET_V5_LINK
       }
