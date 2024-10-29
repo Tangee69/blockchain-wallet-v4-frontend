@@ -225,16 +225,13 @@ const App = ({
       return
     }
     let fullPath: string
-    let fullPathCaseSensitive: string
     if (window.location.hash && window.location.hash !== '#/') {
       // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
-      fullPath = (window.location.pathname + window.location.hash).toLowerCase()
-      fullPathCaseSensitive = window.location.pathname + window.location.hash
+      fullPath = window.location.pathname + window.location.hash
     } else {
       // OBTAIN FULL PATH BY COMBINING PATHNAME AND SEARCH QUERY, TO DEAL WITH HASH ROUTING
       // ADDING HASH AT THE END OF THE PATH IF THERE ISN'T ONE
-      fullPath = (window.location.pathname + window.location.search).toLowerCase()
-      fullPathCaseSensitive = window.location.pathname + window.location.search
+      fullPath = window.location.pathname + window.location.search
     }
 
     // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
@@ -249,19 +246,18 @@ const App = ({
       })
 
       // UPDATE LANGUAGE COOKIE SO THAT V5 LOADS THE CORRECT LANGUAGE
-      cookies.set('clang', firstSegment.toLowerCase(), {
+      cookies.set('clang', firstSegment, {
         domain: '.blockchain.com',
         path: '/'
       })
       // Remove the first segment and join the remaining segments
       pathSegments.shift()
       fullPath = `/${pathSegments.join('/')}`
-      fullPathCaseSensitive = fullPathCaseSensitive.slice(firstSegment.length + 1)
     }
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
     const exclusionPaths = useStaging ? excludedStaging : excludedProduction
-    if (exclusionPaths.some((prefix) => fullPath.startsWith(prefix))) {
+    if (exclusionPaths.some((prefix) => fullPath.toLowerCase().startsWith(prefix))) {
       setDynamicRoutingState(false)
       return
     }
@@ -306,17 +302,14 @@ const App = ({
     localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
 
     if (availableUI) {
+      const redirectUrl = removeHash(fullPath)
       // eslint-disable-next-line
-      console.log('xx', 'Redirecting to v5', fullPathCaseSensitive)
+      console.log('xx', 'Redirecting to v5', redirectUrl)
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
+      if (useFullPathForRedirect.some((prefix) => fullPath.toLowerCase().startsWith(prefix))) {
         // eslint-disable-next-line
-        console.log(
-          'xx',
-          `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`,
-          'using full path for redirect'
-        )
-        window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`
+        console.log('xx', `${window?.WALLET_V5_LINK + redirectUrl}`, 'using full path for redirect')
+        window.location.href = window?.WALLET_V5_LINK + redirectUrl
       } else {
         // eslint-disable-next-line
         console.log('xx', window?.WALLET_V5_LINK, 'not using full path for redirect')
