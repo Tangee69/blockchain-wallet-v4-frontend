@@ -117,7 +117,8 @@ const useFullPathForRedirect = [
   '/import-wallet',
   '/auth',
   '/#/auth',
-  '/#/sofi'
+  '/#/sofi',
+  '/#/login/'
 ]
 
 const excludedProduction = [
@@ -140,8 +141,10 @@ const excludedProduction = [
   '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android'
+  '/#/login/',
+  '/#/signup/product=exchange&platform=android',
   // '/#/sofi'
+
 ]
 
 const excludedStaging = [
