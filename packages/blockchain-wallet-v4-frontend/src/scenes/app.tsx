@@ -97,13 +97,15 @@ const removeHash = (path: string) => {
   return path
 }
 
-const useStaging = window.location.host === 'login-staging.blockchain.com'
+const useStaging =
+  window.location.host === 'login-staging.blockchain.com' ||
+  window.location.host.includes('localhost')
 
 const useFullPathForRedirect = [
   '/#/authorize-approve',
   '/deeplink',
   '/exchange',
-  '/prove/instant-link/callback',
+  '/#/prove/instant-link/callback',
   '/refer',
   '/sofi',
   '/#/verify-email',
@@ -125,7 +127,7 @@ const excludedProduction = [
   '/#/authorize-approve',
   '/deeplink',
   '/exchange',
-  '/prove/instant-link/callback',
+  '/#/prove/instant-link/callback',
   '/refer',
   // '/sofi',
   '/#/verify-email',
@@ -142,16 +144,15 @@ const excludedProduction = [
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
   '/#/login/',
-  '/#/signup/product=exchange&platform=android',
+  '/#/signup/product=exchange&platform=android'
   // '/#/sofi'
-
 ]
 
 const excludedStaging = [
   // '/#/authorize-approve',
   // '/deeplink',
   '/exchange',
-  // '/prove/instant-link/callback',
+  // '/#/prove/instant-link/callback',
   // '/refer',
   // '/#/verify-email',
   '/#/login?product=exchange',
@@ -223,8 +224,8 @@ const App = ({
       setDynamicRoutingState(false)
       return
     }
-    let fullPath
-    let fullPathCaseSensitive
+    let fullPath: string
+    let fullPathCaseSensitive: string
     if (window.location.hash && window.location.hash !== '#/') {
       // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
       fullPath = (window.location.pathname + window.location.hash).toLowerCase()
@@ -255,6 +256,7 @@ const App = ({
       // Remove the first segment and join the remaining segments
       pathSegments.shift()
       fullPath = `/${pathSegments.join('/')}`
+      fullPathCaseSensitive = fullPathCaseSensitive.slice(firstSegment.length + 1)
     }
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
