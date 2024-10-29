@@ -260,7 +260,6 @@ const App = ({
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
     if (
       (useStaging ? excludedStaging : excludedProduction).some((prefix) => {
-        console.log(fullPath, prefix)
         return fullPath.startsWith(prefix)
       })
     ) {
