@@ -117,7 +117,8 @@ const useFullPathForRedirect = [
   '/import-wallet',
   '/auth',
   '/#/auth',
-  '/#/sofi'
+  '/#/sofi',
+  '/#/login/'
 ]
 
 const excludedProduction = [
@@ -141,7 +142,8 @@ const excludedProduction = [
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
   '/#/signup/product=exchange&platform=android',
-  '/#/sofi'
+  '/#/sofi',
+  '/#/login/'
 ]
 
 const excludedStaging = [
@@ -258,6 +260,7 @@ const App = ({
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
     if (
       (useStaging ? excludedStaging : excludedProduction).some((prefix) => {
+        console.log(fullPath, prefix)
         return fullPath.startsWith(prefix)
       })
     ) {
