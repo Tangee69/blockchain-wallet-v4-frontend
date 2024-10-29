@@ -120,7 +120,9 @@ const useFullPathForRedirect = [
   '/auth',
   '/#/auth',
   '/#/sofi',
-  '/#/login/'
+  '/#/login/',
+  '/wallet/forgot-password',
+  '/wallet/import-wallet'
 ]
 
 const excludedProduction = [
