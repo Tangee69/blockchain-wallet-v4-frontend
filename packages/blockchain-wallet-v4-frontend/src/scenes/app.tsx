@@ -129,7 +129,7 @@ const excludedProduction = [
   '/#/authorize-approve',
   '/deeplink',
   '/exchange',
-  '/#/prove/instant-link/callback',
+  // '/#/prove/instant-link/callback',
   '/refer',
   // '/sofi',
   '/#/verify-email',
