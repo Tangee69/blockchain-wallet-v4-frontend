@@ -142,7 +142,7 @@ const excludedProduction = [
   '/login?product=wallet&platform=android',
   '/signup/product=exchange&platform=ios',
   '/signup/product=exchange&platform=android',
-  // '/#/login?product=wallet&platform=ios',
+  '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
   '/#/login/',
