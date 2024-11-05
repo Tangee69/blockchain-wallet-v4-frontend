@@ -127,16 +127,16 @@ const useFullPathForRedirect = [
 ]
 
 const excludedProduction = [
-  '/#/authorize-approve',
-  '/deeplink',
-  '/exchange',
+  // '/#/authorize-approve',
+  // '/deeplink',
+  // '/exchange',
   // '/#/prove/instant-link/callback',
-  '/refer',
+  // '/refer',
   // '/sofi',
-  '/#/verify-email',
-  '/#/login?product=exchange',
+  // '/#/verify-email',
+  // '/#/login?product=exchange',
   '/wallet-options-v4.json',
-  '/#/prove',
+  // '/#/prove',
   // '/#/reset-two-factor',
   // '/#/open',
   '/login?product=wallet&platform=ios',
@@ -152,24 +152,7 @@ const excludedProduction = [
 ]
 
 const excludedStaging = [
-  // '/#/authorize-approve',
-  // '/deeplink',
-  // '/exchange',
-  // '/#/prove/instant-link/callback',
-  // '/refer',
-  // '/#/verify-email',
-  // '/#/login?product=exchange',
-  '/wallet-options-v4.json'
-  // '/#/reset-two-factor'
-  // '/#/open',
-  // '/login?product=wallet&platform=ios',
-  // '/login?product=wallet&platform=android',
-  // '/signup/product=exchange&platform=ios',
-  // '/signup/product=exchange&platform=android',
-  // '/#/login?product=wallet&platform=ios',
-  // '/#/login?product=wallet&platform=android',
-  // '/#/signup/product=exchange&platform=ios',
-  // '/#/signup/product=exchange&platform=android'
+    '/wallet-options-v4.json'
 ]
 
 const App = ({
