@@ -122,7 +122,8 @@ const useFullPathForRedirect = [
   '/#/sofi',
   '/#/login/',
   '/wallet/forgot-password',
-  '/wallet/import-wallet'
+  '/wallet/import-wallet',
+  '/#/signup'
 ]
 
 const excludedProduction = [
@@ -144,9 +145,9 @@ const excludedProduction = [
   '/signup/product=exchange&platform=android',
   '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
-  '/#/signup/product=exchange&platform=ios',
+  '/#/signup?product=exchange&platform=ios',
   '/#/login/',
-  '/#/signup/product=exchange&platform=android'
+  '/#/signup?product=exchange&platform=android'
   // '/#/sofi'
 ]
 
