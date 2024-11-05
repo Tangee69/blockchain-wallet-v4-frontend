@@ -154,22 +154,22 @@ const excludedProduction = [
 const excludedStaging = [
   // '/#/authorize-approve',
   // '/deeplink',
-  '/exchange',
+  // '/exchange',
   // '/#/prove/instant-link/callback',
   // '/refer',
   // '/#/verify-email',
-  '/#/login?product=exchange',
-  '/wallet-options-v4.json',
+  // '/#/login?product=exchange',
+  '/wallet-options-v4.json'
   // '/#/reset-two-factor'
   // '/#/open',
-  '/login?product=wallet&platform=ios',
-  '/login?product=wallet&platform=android',
-  '/signup/product=exchange&platform=ios',
-  '/signup/product=exchange&platform=android',
-  '/#/login?product=wallet&platform=ios',
-  '/#/login?product=wallet&platform=android',
-  '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android'
+  // '/login?product=wallet&platform=ios',
+  // '/login?product=wallet&platform=android',
+  // '/signup/product=exchange&platform=ios',
+  // '/signup/product=exchange&platform=android',
+  // '/#/login?product=wallet&platform=ios',
+  // '/#/login?product=wallet&platform=android',
+  // '/#/signup/product=exchange&platform=ios',
+  // '/#/signup/product=exchange&platform=android'
 ]
 
 const App = ({
