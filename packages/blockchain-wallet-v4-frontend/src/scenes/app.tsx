@@ -123,7 +123,9 @@ const useFullPathForRedirect = [
   '/#/login/',
   '/wallet/forgot-password',
   '/wallet/import-wallet',
-  '/#/signup'
+  '/#/signup',
+  '/#/help-exchange/',
+  'help-exchange'
 ]
 
 const excludedProduction = [
@@ -151,9 +153,7 @@ const excludedProduction = [
   // '/#/sofi'
 ]
 
-const excludedStaging = [
-    '/wallet-options-v4.json'
-]
+const excludedStaging = ['/wallet-options-v4.json']
 
 const App = ({
   apiUrl,
