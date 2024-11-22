@@ -19,7 +19,6 @@ let messageListener
 // global function for mobile clients to call to pass message
 // this must be exposed on window
 window.receiveMessageFromMobile = (message) => {
-  console.log('xxxxx')
   messageListener(message)
 }
 
@@ -28,7 +27,6 @@ window.receiveMessageFromMobile = (message) => {
 // emitter on messageListener so receiveMessageFromMobile func can emit the actual message
 const pollForMessageFromMobile = () => {
   return eventChannel((emitter) => {
-    console.log(emitter, 'xxxx')
     messageListener = emitter
     return () => emitter(END)
   })
@@ -36,7 +34,6 @@ const pollForMessageFromMobile = () => {
 
 // sends messages to mobile clients based on platform
 export const sendMessageToMobile = (platform: PlatformTypes, message: MobileMessageTypes) => {
-  console.log(platform, message)
   // messages must be passed as strings to mobile clients
   const messageStringified = JSON.stringify(message)
 
@@ -70,20 +67,16 @@ export const sendMessageToMobile = (platform: PlatformTypes, message: MobileMess
 // initiates contact with mobile apps and returns the auth payload
 // 👋 this is currently focused only on wallet mobile auth flow
 export const initMobileWalletAuthFlow = function* () {
-  console.log('this is beiing called ')
   let mobileMessageChannel
   let authPayloadFromMobileEncoded
 
   // get auth metadata about product and platform stored in initial auth saga
   const { platform, product } = yield select(selectors.auth.getProductAuthMetadata)
 
-  console.log(platform, product, 'xxxxxxx')
-
   // wait for auth payload message from mobile
   try {
     // start event listener for message from mobile
     mobileMessageChannel = yield call(pollForMessageFromMobile)
-
     // let mobile know webview has finished loading
     sendMessageToMobile(platform, { status: 'connected' })
     // wait for auth payload message from mobile
@@ -94,7 +87,6 @@ export const initMobileWalletAuthFlow = function* () {
       }
     }
   } catch (e) {
-    console.log('catching')
     mobileMessageChannel.end()
   }
 
