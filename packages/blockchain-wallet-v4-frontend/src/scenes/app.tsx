@@ -179,37 +179,14 @@ const App = ({
     const cookies = new Cookies()
     const optOut = localStorage.getItem('opt_out_wallet_v5_ui')
     const optOutDate = localStorage.getItem('opt_out_date')
-    const cache = {
-      canary_position: cookies.get('canary_position'),
-      opt_out_wallet_v5_ui: cookies.get('opt_out_wallet_v5_ui')
-    }
+    const optOutDataAsDateObject = optOutDate ? new Date(optOutDate) : new Date() // date user has for their opt out time
+    const optOutDateThreshold = new Date('2024-11-22T00:00:00.000Z') // cutoff date any user with reversion date before this will go to v5 Nov 22nd 2024
+    const isOptOutDateAfterDateThreshold = optOutDataAsDateObject > optOutDateThreshold // if user's reversion date is after cutoff this is true, they will stay on v4
 
-    // Update localStorage cache with current values, if exists.
-    if (localStorage.getItem('canary_position') === null && cache.canary_position) {
-      localStorage.setItem('canary_position', `${cache.canary_position}`)
-    }
-
-    // Update localStorage cache with current values, if exists.
-    if (optOut === null && cache.opt_out_wallet_v5_ui) {
-      localStorage.setItem('opt_out_wallet_v5_ui', JSON.stringify(cache.opt_out_wallet_v5_ui))
-    }
-
-    if (optOut && optOutDate === null) {
+    //if opted out and no opt out date add one
+    if (optOut && optOutDate === null)
       localStorage.setItem('opt_out_date', new Date().toISOString())
-    }
 
-    // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 100
-
-    // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
-    // @ts-ignore
-    if (THRESHOLD === 0) {
-      localStorage.setItem('wallet_v5_ui_available', 'false')
-      // eslint-disable-next-line
-      console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
-      setDynamicRoutingState(false)
-      return
-    }
     let fullPath: string
     if (window.location.hash && window.location.hash !== '#/') {
       // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
@@ -248,47 +225,17 @@ const App = ({
       return
     }
 
-    // OBTAIN THE CANARY POSITION
-    const canaryPositionString = localStorage.getItem('canary_position')
-    let canaryPosition = Number(canaryPositionString)
-
-    const setCanaryPosition = () => {
-      canaryPosition = Math.floor(Math.random() * 101)
-      localStorage.setItem('canary_position', `${canaryPosition}`)
-    }
-
-    // IF THE CANARY POSITION DOES NOT EXIST, GENERATE A NEW ONE.
-    if (canaryPositionString === null || canaryPositionString === undefined) setCanaryPosition()
-
-    // MAKE SURE THE CANARY POSITION IS VALID, IF NOT, UPDATE THE VALUE.
-    if (Number.isNaN(canaryPosition)) {
+    // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
+    if (optOut && isOptOutDateAfterDateThreshold) {
       // eslint-disable-next-line
       console.log(
-        `[ROUTING_DEBUG]: canary_position was NaN, Raw: ${canaryPositionString}, Setting a new canary_position.`
+        '[ROUTING_DEBUG]: User has opted out of v5, and their opt out date is after the threshold, staying on v4'
       )
-      setCanaryPosition()
-      // eslint-disable-next-line
-      console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
-    }
-
-    // IF THE USER HAS REQUESTED TO STAY IN V4.
-    const reversionRequested = localStorage.getItem('opt_out_wallet_v5_ui') === 'true'
-    const availableUI = canaryPosition <= THRESHOLD
-
-    // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
-    if (reversionRequested) {
-      localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
-      // eslint-disable-next-line
-      console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
       setDynamicRoutingState(false)
       return
-    }
-
-    // RATHER OR NOT V5 IS AVAILABLE
-    localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
-
-    if (availableUI) {
+    } else {
       const redirectUrl = removeHash(fullPath)
+      if (optOut) localStorage.removeItem('opt_out_wallet_v5_ui') // go ahead and set opt-out to false in local storage
       // eslint-disable-next-line
       console.log('xx', 'Redirecting to v5', redirectUrl)
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
@@ -304,8 +251,6 @@ const App = ({
 
       return
     }
-
-    setDynamicRoutingState(false)
   }, [])
 
   // parse and log UTMs

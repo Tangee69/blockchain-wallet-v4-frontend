@@ -47,6 +47,7 @@ export default ({ api, coreSagas, networks }) => {
     email = undefined,
     state = undefined
   }) {
+    console.log('this is beung called')
     try {
       yield call(coreSagas.settings.fetchSettings)
       yield put(actions.auth.authenticate())
@@ -81,15 +82,15 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
 
+    console.log('register is being called, xxxx')
+
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const accountRecoveryV2: boolean = selectors.core.walletOptions
       .getAccountRecoveryV2(yield select())
       .getOrElse(false) as boolean
 
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
-    const isExchangeMobileSignup =
-      product === ProductAuthOptions.EXCHANGE &&
-      (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
+    const isExchangeMobileSignup = true
     try {
       const isReferralEntered = referral && referral.length > 0
       if (isReferralEntered) {

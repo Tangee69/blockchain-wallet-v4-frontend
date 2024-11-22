@@ -345,6 +345,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const authAndRouteToExchangeAction = function* (action) {
+    console.log('this is being called, auth route to exchange')
     const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
@@ -352,6 +353,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.auth.getProductAuthMetadata
       )
       const { platform: signupPlatform } = yield select(selectors.signup.getProductSignupMetadata)
+      console.log(signupPlatform, 'xxx')
       // login platform and signup platform come from two different locations
       // set const to whichever one exists
       const platform = signupPlatform || loginPlatform
@@ -385,6 +387,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       switch (true) {
         case isMobileExchangeSignup:
+          console.log('hellow ')
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
