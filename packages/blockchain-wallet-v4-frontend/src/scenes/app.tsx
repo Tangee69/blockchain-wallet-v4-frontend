@@ -236,6 +236,8 @@ const App = ({
     } else {
       const redirectUrl = removeHash(fullPath)
       if (optOut) localStorage.removeItem('opt_out_wallet_v5_ui') // go ahead remove opt_out key
+      if (optOutDate) localStorage.removeItem('opt_out_date') // remove user's old opt out date
+
       // eslint-disable-next-line
       console.log('xx', 'Redirecting to v5', redirectUrl)
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
