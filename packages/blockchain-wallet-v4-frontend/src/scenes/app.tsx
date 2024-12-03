@@ -125,7 +125,9 @@ const useFullPathForRedirect = [
   '/wallet/import-wallet',
   '/#/signup',
   '/#/help-exchange/',
-  'help-exchange'
+  'help-exchange',
+  '/#/reset-2fa',
+  '/reset-2fa.'
 ]
 
 const excludedProduction = [
@@ -183,7 +185,7 @@ const App = ({
     const optOutDateThreshold = new Date('2024-11-25T00:00:00.000Z') // cutoff date any user with reversion date before this will go to v5 Nov 22nd 2024
     const isOptOutDateAfterDateThreshold = optOutDataAsDateObject > optOutDateThreshold // if user's reversion date is after cutoff this is true, they will stay on v4
 
-    //if opted out and no opt out date add one
+    // if opted out and no opt out date add one
     if (optOut && optOutDate === null)
       localStorage.setItem('opt_out_date', new Date().toISOString())
 
