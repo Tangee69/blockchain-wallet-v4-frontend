@@ -234,6 +234,7 @@ const App = ({
         '[ROUTING_DEBUG]: User has opted out of v5, and their opt out date is after the threshold, staying on v4'
       )
       setDynamicRoutingState(false)
+      return
     } else {
       const redirectUrl = removeHash(fullPath)
       if (optOut) localStorage.removeItem('opt_out_wallet_v5_ui') // go ahead remove opt_out key
@@ -251,6 +252,8 @@ const App = ({
         console.log('xx', window?.WALLET_V5_LINK, 'not using full path for redirect')
         window.location.href = window?.WALLET_V5_LINK
       }
+
+      return
     }
   }, [])
 
